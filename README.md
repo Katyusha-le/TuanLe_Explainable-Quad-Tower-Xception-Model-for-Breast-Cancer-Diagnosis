@@ -30,7 +30,9 @@ After cleaning and filtering, a total of **4,056 images** were retained for the 
 *   **HER2-enriched (HER2+):** 530 images 
 *   **Triple-Negative:** 344 images
 
-*(Note: Due to the high class imbalance—such as Luminal B having 1,476 images while Triple-Negative has only 344, the training strategy implements weighted random sampling and a Class-Weighted Focal Loss to ensure the minority classes are learned effectively)*.
+*(Note 1: Please go to https://www.cancerimagingarchive.net/ for data usage policy and guidance)*
+
+*(Note 2: Due to the high class imbalance such as Luminal B having 1,476 images while Triple-Negative has only 344, the training strategy implements weighted random sampling and a Class-Weighted Focal Loss to ensure the minority classes are learned effectively)*.
 
 ---
 
@@ -172,6 +174,49 @@ When compared to a recent 5-class mammography prediction model, **DenseNet121-CB
 
 ---
 
-## V. Reference
+## V. Installation and Usage Guide
+This project is optimized to run on **Google Colab** to leverage its free GPU resources and seamless integration with Google Drive for storage.
+
+### 1. Prerequisites & Environment Setup
+- Upload and open the provided Jupyter Notebook (`.ipynb` file) in Google Colab.
+- Mount your Google Drive when prompted, as the processed data and model checkpoints will be saved there to prevent data loss when the runtime disconnects [1, 2].
+- Install the required dependencies. The notebook includes an execution cell to automatically install these packages:
+  ```python
+  !pip install pydicom opencv-python tqdm scikit-learn tensorflow openpyxl
+  ``` [3]
+
+### 2. Data Acquisition (TCIA Database)
+The project utilizes the CMMD dataset from **The Cancer Imaging Archive (TCIA)**. Due to TCIA's data-sharing policies, you cannot host the raw data on GitHub. The acquisition process is split into an automated image download and a manual metadata upload.
+
+*   **Image Data (Automated):** You do not need to download the gigabytes of image data manually. The notebook contains a script that calls the TCIA API to fetch and extract the DICOM mammography images directly into the Colab environment (`/content/cmmd_data`).
+*   **Clinical Metadata (Manual Action Required):** 
+    1. Go to the [TCIA CMMD page](https://www.cancerimagingarchive.net/).
+    2. Download the clinical metadata file (Excel/CSV format) which contains patient IDs, ages, abnormality types, and subtypes.
+    3. In the Colab notebook, run the metadata upload cell (`files.upload()`) and select the downloaded file from your local machine.
+
+### 3. Data Preprocessing
+Once the data is in the Colab environment, run the preprocessing pipeline cells. This step will:
+- Execute the **Ensemble Cropping** mechanism to automatically locate and extract the Region of Interest (ROI) from the full mammograms.
+- Perform robust percentile-based scaling to remove metal artifacts.
+- Normalize patient ages and one-hot encode the abnormality types.
+- Split the dataset into Training, Validation, and Testing sets.
+- **Save to Drive:** The script will convert the arrays into `.npy` files and copy them to your mounted Google Drive (default path: `/content/drive/MyDrive/CMMD_preprocessed/v1.0`).
+
+### 4. Model Training
+To safely train the Quad-Tower architecture and prevent catastrophic forgetting of the pre-trained weights, the training is executed in two phases:
+
+*   **Phase 1 (Feature Extraction):** The Xception backbones are completely frozen. The model trains the dense layers, cross-attention mechanisms, and fusion blocks using a Class-Weighted Focal Loss (γ=2.5) to handle class imbalance. Checkpoints are saved continuously to your Drive.
+*   **Phase 2 (Fine-Tuning):** The script unfreezes **Block 14** (the top-most semantic layer of the Xception towers) while keeping Batch Normalization layers frozen. It recompiles with a micro learning rate (`1e-6`) to carefully refine the spatial feature extraction specifically for breast cancer diagnosis.
+
+### 5. Evaluation & Explainable AI (XAI)
+After the training phases are complete, run the evaluation cells to analyze the model's performance and interpret its decisions:
+- **Global Metrics:** Generate the Confusion Matrix, Macro AUC, F1-scores, Sensitivity, and Specificity reports.
+- **GRAD-CAM++:** Run the interactive widget to visualize the spatial heatmaps. It intercepts the `GlobalAveragePooling2D` layer to show exactly which parts of the mammogram the 4 image towers focused on.
+- **SHAP (Tabular/Metadata):** Generates waterfall and summary plots to quantify how the clinical metadata shifted the model's final prediction.
+- **TCAV (Concept Testing):** Utilizes a custom `Fast_TCAV` engine to statistically test human-understandable concepts against the model's latent fusion space.
+
+---
+
+## VI. Reference
 Cui, Chunyan; Li Li; Cai, Hongmin; Fan, Zhihao; Zhang, Ling; Dan, Tingting; Li, Jiao; Wang, Jinghua. (2021) The Chinese Mammography Database (CMMD): An online mammography database with biopsy confirmed types for machine diagnosis of breast. The Cancer Imaging Archive. DOI: https://doi.org/10.7937/tcia.eqde-4b16
 Luo, Y., Wei, J., Gu, Y., Zhu, C., & Xu, F. (2025). Predicting molecular subtype in breast cancer using deep learning on mammography images. Frontiers in Oncology, 15, 1638212. https://doi.org/10.3389/fonc.2025.1638212

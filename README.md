@@ -1,6 +1,8 @@
 # Explainable-Quad-Tower-Xception-Model-for-Breast-Cancer-Diagnosis
 This project is an Explainable Multimodal Diagnostic AI that classifies breast cancer into 5 subtypes using 2D mammograms and clinical metadata . Based on a Quad-Tower Xception architecture, it integrates XAI tools (GRAD-CAM++, SHAP, TCAV) to eliminate the "black box" effect, providing transparent clinical decision support.
 
+Personal email: phuoctuanle111@gmail.com
+
 ## I. Introduction
 Breast cancer diagnosis and treatment planning require analyzing highly complex and heterogeneous data. A critical task is identifying the molecular subtype of the tumor such as Benign, Luminal A, Luminal B, HER2-enriched, and Triple-Negative as this heavily dictates the treatment strategy. While Deep Convolutional Neural Networks (DCNNs) are promising for medical imagery, they are often seen as "black boxes" lacking clinical transparency. 
 

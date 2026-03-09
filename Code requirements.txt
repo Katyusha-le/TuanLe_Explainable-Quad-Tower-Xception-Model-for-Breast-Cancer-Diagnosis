@@ -1,0 +1,18 @@
+This code requires:
+
+Python==['3.12.12', '(main,', 'Oct', '10', '2025,', '08:52:57)', '[GCC', '11.4.0]']
+albumentations==2.0.8
+ipywidgets==7.7.1
+matplotlib==3.10.0
+numpy==2.0.2
+opencv-python==4.13.0.92
+openpyxl==3.1.5
+pandas==2.2.2
+pydicom==3.0.1
+requests==2.32.4
+scikit-learn==1.6.1
+scipy==1.16.3
+seaborn==0.13.2
+shap==0.50.0
+tensorflow==2.19.0
+tqdm==4.67.3

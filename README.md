@@ -183,7 +183,7 @@ This project is optimized to run on **Google Colab** to leverage its free GPU re
 - Install the required dependencies. The notebook includes an execution cell to automatically install these packages:
   ```python
   !pip install pydicom opencv-python tqdm scikit-learn tensorflow openpyxl
-  ``` [3]
+  ```
 
 ### 2. Data Acquisition (TCIA Database)
 The project utilizes the CMMD dataset from **The Cancer Imaging Archive (TCIA)**. Due to TCIA's data-sharing policies, you cannot host the raw data on GitHub. The acquisition process is split into an automated image download and a manual metadata upload.
@@ -219,4 +219,5 @@ After the training phases are complete, run the evaluation cells to analyze the 
 
 ## VI. Reference
 Cui, Chunyan; Li Li; Cai, Hongmin; Fan, Zhihao; Zhang, Ling; Dan, Tingting; Li, Jiao; Wang, Jinghua. (2021) The Chinese Mammography Database (CMMD): An online mammography database with biopsy confirmed types for machine diagnosis of breast. The Cancer Imaging Archive. DOI: https://doi.org/10.7937/tcia.eqde-4b16
+
 Luo, Y., Wei, J., Gu, Y., Zhu, C., & Xu, F. (2025). Predicting molecular subtype in breast cancer using deep learning on mammography images. Frontiers in Oncology, 15, 1638212. https://doi.org/10.3389/fonc.2025.1638212

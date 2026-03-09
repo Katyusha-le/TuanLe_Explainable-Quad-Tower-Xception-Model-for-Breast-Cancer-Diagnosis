@@ -5,6 +5,8 @@ Author: Le Phuoc Tuan
 
 Personal email: phuoctuanle111@gmail.com
 
+*(Note: This is still a work-in-progress as I am still working on a second module that provide treatment recommendation based on this model's diagnostic result).*
+
 ## I. Introduction
 Breast cancer diagnosis and treatment planning require analyzing highly complex and heterogeneous data. A critical task is identifying the molecular subtype of the tumor such as Benign, Luminal A, Luminal B, HER2-enriched, and Triple-Negative as this heavily dictates the treatment strategy. While Deep Convolutional Neural Networks (DCNNs) are promising for medical imagery, they are often seen as "black boxes" lacking clinical transparency. 
 
@@ -34,9 +36,9 @@ After cleaning and filtering, a total of **4,056 images** were retained for the 
 *   **HER2-enriched (HER2+):** 530 images 
 *   **Triple-Negative:** 344 images
 
-*(Note 1: Please go to https://www.cancerimagingarchive.net/ for data usage policy and guidance)*
+*(Note 1: Please go to https://www.cancerimagingarchive.net/ for data usage policy and guidance).*
 
-*(Note 2: Due to the high class imbalance such as Luminal B having 1,476 images while Triple-Negative has only 344, the training strategy implements weighted random sampling and a Class-Weighted Focal Loss to ensure the minority classes are learned effectively)*.
+*(Note 2: Due to the high class imbalance such as Luminal B having 1,476 images while Triple-Negative has only 344, the training strategy implements weighted random sampling and a Class-Weighted Focal Loss to ensure the minority classes are learned effectively).*
 
 ---
 
@@ -165,7 +167,7 @@ When tested with DenseNet121 and ResNet50V2 backbones, the competitors achieved 
 
 ### Comparison with Previous Research
 When compared to a recent 5-class mammography prediction model, **DenseNet121-CBAM** (Luo et al., 2025), the Quad-Tower Xception model shows a distinct advantage in clinical safety. 
-*   While Luo's model achieved a slightly higher AUC (0.6494 vs 0.6414) and SENS (45.5% vs 31.3%), it suffered from a massive drop in Specificity (58.4%). 
+*   While Luo's model achieved a slightly higher AUC (0.6494 vs 0.6468) and SENS (45.5% vs 32.8%), it suffered from a massive drop in Specificity (58.4%). 
 *   Our fine-tuned Xception model maintains a **Specificity of >82.3%**, drastically reducing the rate of false-positive predictions across multiple classes, establishing it as a much safer tool for clinical exclusion.
 
 | Stats | Quad-Stream Xception | DenseNet121-CBAM (Luo et al., 2025) |

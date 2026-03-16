@@ -5,8 +5,6 @@ Author: Le Phuoc Tuan
 
 Personal email: phuoctuanle111@gmail.com
 
-*(Note: This is still a work-in-progress as I am still working on a second module that provide treatment recommendation based on this model's diagnostic result).*
-
 ## I. Introduction
 Breast cancer diagnosis and treatment planning require analyzing highly complex and heterogeneous data. A critical task is identifying the molecular subtype of the tumor such as Benign, Luminal A, Luminal B, HER2-enriched, and Triple-Negative as this heavily dictates the treatment strategy. While Deep Convolutional Neural Networks (DCNNs) are promising for medical imagery, they are often seen as "black boxes" lacking clinical transparency. 
 
